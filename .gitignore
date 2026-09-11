@@ -1,0 +1,20 @@
+build
+install
+log
+onnxruntime-linux-x64-1.10.0/
+.vscode/
+
+# run artefacts / logs / checkpoints
+logs/
+*.log
+*.pt
+
+# python
+__pycache__/
+*.py[cod]
+*.egg-info/
+
+# isaac / usd conversion artefacts
+*.usd
+*.usda
+*.usdc
