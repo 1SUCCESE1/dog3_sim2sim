@@ -83,10 +83,11 @@
         output_name: "output"
         policy_type: "instinctlab"
         # env
-        num_obs: 45
+        num_obs: 51
         num_actions: 12
         history_len: 0
-        observations_name: ["ang_vel", "gravity", "commands", "dof_pos", "dof_vel", "last_actions"]
+        observations_name: ["ang_vel", "gravity", "commands", "dof_pos", "dof_vel", "last_actions", "phases"]
+        gait_period: 1.0  # trot cycle [s]; must match the training-side gait_phase cycle_time
         commands_name: ["lin_vel_x", "lin_vel_y", "ang_vel_z"]
         commands_scale: [2.0, 2.0, 0.25]
         max_commands: [1.0, 1.0, 1.0]

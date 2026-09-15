@@ -419,6 +419,7 @@ void RlController::update_control_parameters()
     get_node()->get_parameter<std::vector<scalar_t>>(
       policy_name + ".commands_comp", rl_params.commands_comp);
     get_node()->get_parameter<scalar_t>(policy_name + ".episode_length", rl_params.episode_length);
+    get_node()->get_parameter<scalar_t>(policy_name + ".gait_period", rl_params.gait_period);
     // control
     get_node()->get_parameter<scalar_t>(policy_name + ".time_interval", rl_params.time_interval);
     get_node()->get_parameter<std::string>(policy_name + ".control_type", rl_params.control_type);

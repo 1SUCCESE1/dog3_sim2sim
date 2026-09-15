@@ -199,10 +199,11 @@ void FSMState_RL::update_observations()
     command = std::max(std::min(command, rl_params_->max_commands[i]), rl_params_->min_commands[i]);
     obs_.commands[i] = command * rl_params_->commands_scale[i];
   }
-  // phase
-  double phase = (getTimeSecond() - obs_.phase_start_time) * M_PI / 2.0f;
+  // phase: rate = 2*pi/gait_period, matching the training-side gait_phase term
+  const double phase_rate = 2.0 * M_PI / rl_params_->gait_period;
+  double phase = (getTimeSecond() - obs_.phase_start_time) * phase_rate;
   if (getTimeSecond() - obs_.phase_start_time > rl_params_->episode_length) {
-    phase = rl_params_->episode_length * M_PI / 2.0f;
+    phase = rl_params_->episode_length * phase_rate;
   }
   // clang-format off
   obs_.phases << std::sin(phase),

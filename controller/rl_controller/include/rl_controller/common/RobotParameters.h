@@ -72,6 +72,8 @@ struct RLParameters
   std::vector<scalar_t> commands_comp{0.0, 0.0, 0.0};
   std::vector<scalar_t> commands_gain{1.0, 1.0, 1.0};
   scalar_t episode_length{0};  // 0 means no limit, units: seconds
+  scalar_t gait_period{0.7};   // gait cycle [s] for the "phases" observation; must
+                               // match the training-side gait_phase cycle_time
 
   scalar_t time_interval{0.02};
   // "P" means all joints use position control,
