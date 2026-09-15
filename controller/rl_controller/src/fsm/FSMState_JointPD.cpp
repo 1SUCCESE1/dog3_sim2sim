@@ -32,14 +32,16 @@ void FSMState_JointPD::enter()
 {
   // Default is to not transition
   this->_nextStateName = this->_stateName;
-  // joint zero == standing stance (dog3 URDF joint origins are shifted by the
-  // default angles).  Target a slight symmetric crouch instead of the fully
-  // extended zero: the shorter lever arm needs less joint torque to hold under
-  // gravity, so all four legs share the load instead of the rear legs collapsing.
+  // Down / prone pose: drive straight to a deep fold so the body settles on the
+  // ground (verified stable in both simulators).  Started in this state so the
+  // robot comes up lying down, matching the real robot's power-on pose; key 7
+  // (transform_up) stands it and key 0 hands over to the walking policy.
+  // A scripted fold trajectory (transform_down) flips the robot in Gazebo, a
+  // direct PD hold does not.
   initial_jpos.setZero(this->_data->low_state->q.size());
   for (size_t i = 0; i + 2 < initial_jpos.size(); i += 3) {
-    initial_jpos[i + 1] = 0.20;   // thigh
-    initial_jpos[i + 2] = -0.25;  // calf
+    initial_jpos[i + 1] = 0.60;   // thigh
+    initial_jpos[i + 2] = -1.06;  // calf
   }
 }
 
@@ -86,6 +88,9 @@ std::string FSMState_JointPD::checkTransition()
     }
   } else if (desire_state == "idle") {  // normal c
     this->_nextStateName = "idle";
+  } else if (desire_state == "transform_up") {
+    // stand up from the held down pose (key 7)
+    this->_nextStateName = "transform_up";
   } else if (desire_state == "transform_down") {
     this->_nextStateName = "transform_down";
   }

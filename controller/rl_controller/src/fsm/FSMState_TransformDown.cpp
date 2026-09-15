@@ -97,14 +97,16 @@ std::string FSMState_TransformDown::checkTransition()
 {
   this->_nextStateName = this->_stateName;
   auto fsm_state_name = _data->rc_data->fsm_name_;
-  // if (fsm_state_name == "transform_up") {
-  //   this->_nextStateName = "transform_up";
-  // } else if (fsm_state_name == "idle") {  // normal c
-  //   this->_nextStateName = "idle";
-  // }
 
-  if (transform_finish_) {
-    this->_nextStateName = "idle";
+  if (fsm_state_name == "transform_up") {
+    // allow leaving the fold early (pressing 7 while folding down)
+    this->_nextStateName = "transform_up";
+  } else if (transform_finish_) {
+    // hold the folded (down) pose instead of going limp in idle.  Consume the
+    // request too: joint_pd would otherwise see the stale "transform_down" and
+    // jump straight back here, oscillating forever.
+    this->_nextStateName = "joint_pd";
+    _data->rc_data->fsm_name_ = "joint_pd";
   }
 
   return this->_nextStateName;

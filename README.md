@@ -73,15 +73,15 @@ ros2 run keyboard_controller keyboard_controller_node
 | 键 | 动作 |
 |---|---|
 | `0` | 切到策略（`dog3_flat`，行走） |
-| `9` | joint_pd（保持站姿） |
 | `7` | transform_up（起身） |
-| `8` | transform_down（趴下） |
+| `9` | joint_pd（趴下 / 保持默认姿态） |
+| `8` | transform_down（折叠） |
 | `6` | idle（软） |
 | `w` / `s` | 前进 / 后退 |
 | `a` / `d` | 左转 / 右转 |
 | `r` | 速度归零 |
 
-流程：等日志出现 `FSM state now: joint_pd` → 按 `0` → 按 `w`。
+**流程**：启动后机器人**趴在地上**（`joint_pd` 保持趴姿，与真机上电状态一致）→ 按 **`7`** 起身 → 按 **`0`** 切策略 → 按 **`w`** 走。
 
 ## 部署新策略
 

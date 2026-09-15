@@ -63,11 +63,11 @@ FSM::~FSM() { _stateList.deletePtr(); }
 void FSM::initialize()
 {
   count = 0;
-  // Start in joint_pd (not passive): passive is limp (kp=0), so a robot spawned
-  // before the controller is up would collapse during startup and kp=20 cannot
-  // right it.  joint_pd holds the default stance from the first control cycle.
-  // rc_data->fsm_name_ defaults to "idle" and would immediately pull the FSM
-  // back to passive, so pin the requested state too.
+  // Start in joint_pd, which now drives straight to the down/prone pose and holds
+  // it -- matching the real robot, which powers up lying on the ground.  Key 7
+  // (transform_up) stands it up, key 0 switches to the walking policy.
+  // rc_data->fsm_name_ defaults to "idle" and would immediately pull the FSM back
+  // to the (limp) passive state, so pin the requested state too.
   _data->rc_data->fsm_name_ = "joint_pd";
   _currentState = _stateList.jointPD;
   _currentState->enter();
