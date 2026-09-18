@@ -15,11 +15,12 @@ from launch.actions import OpaqueFunction
 def launch_setup(context, *args, **kwargs):
     robot_name = LaunchConfiguration("robot").perform(context)
     ns = LaunchConfiguration("ns").perform(context)
+    world_name = LaunchConfiguration("world").perform(context)
 
     world_file = os.path.join(
         FindPackageShare("gazebo_bridge").find("gazebo_bridge"),
         "worlds",
-        "empty_world.world",
+        world_name,
     )
 
     gazebo = IncludeLaunchDescription(
@@ -110,6 +111,10 @@ def generate_launch_description():
         launch.actions.DeclareLaunchArgument(
             "ns", default_value="",
             description="Namespace",
+        ),
+        launch.actions.DeclareLaunchArgument(
+            "world", default_value="empty_world.world",
+            description="World file under gazebo_bridge/worlds (empty_world.world | obstacle_field.world)",
         ),
     ]
     return LaunchDescription(declared_arguments + [OpaqueFunction(function=launch_setup)])

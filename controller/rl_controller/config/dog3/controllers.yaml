@@ -76,7 +76,7 @@
       rl_policy_names:
         - "dog3_flat"
 
-      # InstinctLab export: single input [1,45], no history, normalizer baked into the ONNX
+      # InstinctLab export: single input [1,51], no history, normalizer baked into the ONNX
       # graph (Sub -> Div).  Feed scaled obs only.
       dog3_flat:
         policy_path: config/dog3/dog3_flat_01.onnx
